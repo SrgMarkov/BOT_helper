@@ -5,8 +5,11 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from dotenv import load_dotenv
 
-
 load_dotenv()
+PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT")
+LANGUAGE = os.getenv("LANGUAGE_CODE")
+
+
 bot = Bot(token=os.getenv("TELEGRAM_BOT_TOKEN"))
 dp = Dispatcher()
 
@@ -46,7 +49,7 @@ async def process_help_command(message: Message):
 async def send_echo(message: Message):
     user_message = message.text
     chat_id = message.chat.id
-    bot_answer = detect_intent_texts('angular-yeti-403509', chat_id, user_message, 'ru')
+    bot_answer = detect_intent_texts(PROJECT_ID, chat_id, user_message, LANGUAGE)
     await message.reply(text=bot_answer)
 
 
