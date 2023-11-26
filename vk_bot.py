@@ -5,13 +5,25 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from dotenv import load_dotenv
 
+from dialogflow import detect_intent_texts
 
-def echo(event, vk_api):
-    vk_api.messages.send(
-        user_id=event.user_id,
-        message=event.text,
-        random_id=random.randint(1, 1000)
-    )
+
+def make_answer(event, vk_api):
+    user_text = event.text
+    user_id = event.user_id
+    try:
+        bot_answer = detect_intent_texts(user_id, user_text)
+        vk_api.messages.send(
+            user_id=user_id,
+            message=bot_answer,
+            random_id=random.randint(1, 1000)
+        )
+    except:
+        vk_api.messages.send(
+            user_id=user_id,
+            message='Не понимаю о чем речь',
+            random_id=random.randint(1, 1000)
+        )
 
 
 if __name__ == "__main__":
@@ -24,4 +36,4 @@ if __name__ == "__main__":
     longpoll = VkLongPoll(vk_session)
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api)
+            make_answer(event, vk_api)
