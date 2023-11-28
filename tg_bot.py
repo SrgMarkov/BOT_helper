@@ -1,6 +1,7 @@
 import logging
 import os
 
+import telegram.error
 from dotenv import load_dotenv
 from telegram import Update, Bot
 from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
@@ -8,7 +9,19 @@ from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 from dialogflow import detect_intent_texts
 
 
-logger = logging.getLogger('Bot_helper')
+logger_tg = logging.getLogger('Bot_helper_tg')
+
+
+class VKLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 class TelegramLogsHandler(logging.Handler):
@@ -47,7 +60,7 @@ def make_answer(update, context) -> None:
     try:
         bot_answer = detect_intent_texts(user_id, user_text)
         update.message.reply_text(bot_answer)
-    except:
+    except telegram.error.BadRequest:
         update.message.reply_text('Не понимаю о чем речь, '
                                   'набери /help и я расскажу тебе о чем мы можем поговорить')
 
@@ -56,7 +69,6 @@ if __name__ == '__main__':
     load_dotenv()
     tg_token = os.getenv('TELEGRAM_BOT_TOKEN')
     chat_id = os.getenv('TG_ADMIN_ID')
-
     bot = Bot(tg_token)
 
     updater = Updater(tg_token)
@@ -66,13 +78,13 @@ if __name__ == '__main__':
     dispatcher.add_handler(MessageHandler(Filters.text, make_answer))
 
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
-    logger.setLevel(logging.INFO)
-    logger.addHandler(TelegramLogsHandler(bot, chat_id))
-    logger.info('Bot is running')
+    logger_tg.setLevel(logging.INFO)
+    logger_tg.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger_tg.info('Bot_helper TG is running')
 
     try:
         updater.start_polling()
         updater.idle()
     except Exception as error:
-        logger.error(f'Возникла ошибка при запуске бота: {error}')
+        logger_tg.error(f'Возникла ошибка в работе бота: {error}')
 

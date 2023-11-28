@@ -44,13 +44,17 @@ def detect_intent_texts(session_id, text):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(PROJECT_ID, session_id)
 
-    text_input = dialogflow.TextInput(text=text, language_code=LANGUAGE)
-    query_input = dialogflow.QueryInput(text=text_input)
-    response = session_client.detect_intent(
-        request={"session": session, "query_input": query_input}
-    )
+    try:
+        text_input = dialogflow.TextInput(text=text, language_code=LANGUAGE)
+        query_input = dialogflow.QueryInput(text=text_input)
+        response = session_client.detect_intent(
+            request={"session": session, "query_input": query_input}
+        )
 
-    return response.query_result.fulfillment_text
+        return response.query_result.fulfillment_text
+
+    except response.query_result.intent.is_fallback:
+        return None
 
 
 if __name__ == '__main__':
