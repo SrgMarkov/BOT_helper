@@ -12,19 +12,7 @@ from dialogflow import detect_intent_texts
 logger_tg = logging.getLogger('Bot_helper_tg')
 
 
-class VKLogsHandler(logging.Handler):
-
-    def __init__(self, tg_bot, chat_id):
-        super().__init__()
-        self.chat_id = chat_id
-        self.tg_bot = tg_bot
-
-    def emit(self, record):
-        log_entry = self.format(record)
-        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
-
-
-class TelegramLogsHandler(logging.Handler):
+class BotLogsHandler(logging.Handler):
 
     def __init__(self, tg_bot, chat_id):
         super().__init__()
@@ -79,7 +67,7 @@ if __name__ == '__main__':
 
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
     logger_tg.setLevel(logging.INFO)
-    logger_tg.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger_tg.addHandler(BotLogsHandler(bot, chat_id))
     logger_tg.info('Bot_helper TG is running')
 
     try:

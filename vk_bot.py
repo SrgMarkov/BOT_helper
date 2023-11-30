@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from telegram import Bot
 
 from dialogflow import detect_intent_texts
-from tg_bot import VKLogsHandler
+from tg_bot import BotLogsHandler
 
 
 logger_vk = logging.getLogger('Bot_helper_vk')
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(format="%(process)d %(levelname)s %(message)s")
     logger_vk.setLevel(logging.INFO)
-    logger_vk.addHandler(VKLogsHandler(bot, chat_id))
+    logger_vk.addHandler(BotLogsHandler(bot, chat_id))
     logger_vk.info('Bot_helper VK is running')
 
     try:
