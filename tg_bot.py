@@ -47,12 +47,8 @@ def make_answer(update, context) -> None:
     user_id = update.message.from_user.id
     project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
     language = os.getenv('LANGUAGE_CODE')
-    try:
-        bot_answer = detect_intent_texts(user_id, user_text, project_id, language)
-        update.message.reply_text(bot_answer)
-    except telegram.error.BadRequest:
-        update.message.reply_text('Не понимаю о чем речь, '
-                                  'набери /help и я расскажу тебе о чем мы можем поговорить')
+    bot_answer = detect_intent_texts(user_id, user_text, project_id, language)
+    update.message.reply_text(bot_answer.query_result.fulfillment_text)
 
 
 if __name__ == '__main__':

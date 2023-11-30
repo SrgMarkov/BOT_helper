@@ -19,10 +19,10 @@ def make_answer(event, vk_api, project_id, language):
     user_id = event.user_id
 
     bot_answer = detect_intent_texts(user_id, user_text, project_id, language)
-    if bot_answer:
+    if not bot_answer.query_result.intent.is_fallback:
         vk_api.messages.send(
             user_id=user_id,
-            message=bot_answer,
+            message=bot_answer.query_result.fulfillment_text,
             random_id=random.randint(1, 1000)
         )
 
