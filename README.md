@@ -24,6 +24,7 @@ TG_ADMIN_ID - ид чата TG для уведомлений
 GOOGLE_APPLICATION_CREDENTIALS - путь до файла application_default_credentials.json
 GOOGLE_CLOUD_PROJECT - id проекта dialogflow
 LANGUAGE_CODE - язык бота
+QUESTIONS_FILE_PATH - путь к файлу с вопросами
 ```
 Установить зависимости командой
 ```bash
@@ -52,10 +53,13 @@ python3 vk_bot.py
         ],
         "answer": "Ответ бота"
 ```
-Файл назвать `questions.json` и положить в проект рядом с файлом `dialogflow.py`
+Файл назвать `questions.json` и указать путь до него в файле `.env`, например:
+```
+QUESTIONS_FILE_PATH=/Users/Username/Documents/
+```
 
 Запустить скрипт
 ```bash
 python3 dialogflow.py
 ```
-
+При этом в терминал выведутся сообщения о успешности / неуспешности загрузки вопросов
