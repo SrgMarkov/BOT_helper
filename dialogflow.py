@@ -58,13 +58,11 @@ if __name__ == '__main__':
 
     questions = os.path.join(json_file_path, 'questions.json')
     with open(questions, 'r') as json_file:
-
         user_requests = json.load(json_file)
-        for user_request in user_requests:
+        for name, user_request in user_requests.items():
             try:
-                name = user_request
-                phrases = user_requests[user_request]['questions']
-                answer = [user_requests[user_request]['answer']]
+                phrases = user_request['questions']
+                answer = [user_request['answer']]
                 create_intent(name, phrases, answer, project_id)
                 print(f'Запись "{name}" добавлена успешно')
             except Exception as error:
