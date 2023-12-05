@@ -46,9 +46,8 @@ def detect_intent_texts(session_id, text, project_id, language):
 if __name__ == '__main__':
     load_dotenv()
     project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
-    json_file_path = os.getenv('QUESTIONS_FILE_PATH')
+    questions = os.getenv('QUESTIONS_FILE')
 
-    questions = os.path.join(json_file_path, 'questions.json')
     with open(questions, 'r') as json_file:
         user_requests = json.load(json_file)
         for name, user_request in user_requests.items():

@@ -28,7 +28,7 @@ TG_ADMIN_ID - ид чата TG для уведомлений
 GOOGLE_APPLICATION_CREDENTIALS - путь до файла application_default_credentials.json
 GOOGLE_CLOUD_PROJECT - id проекта dialogflow
 LANGUAGE_CODE - язык бота
-QUESTIONS_FILE_PATH - путь к файлу с вопросами
+QUESTIONS_FILE - путь к файлу с вопросами
 ```
 Установить зависимости командой
 ```bash
@@ -57,9 +57,9 @@ python3 vk_bot.py
         ],
         "answer": "Ответ бота"
 ```
-Файл назвать `questions.json` и указать путь до него в файле `.env`, например:
+Указать путь до файла с вопросами в `.env`, например:
 ```
-QUESTIONS_FILE_PATH=/Users/Username/Documents/
+QUESTIONS_FILE=/Users/Username/Documents/questions.json
 ```
 
 Запустить скрипт
