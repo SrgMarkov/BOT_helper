@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from telegram import Bot
 
 from dialogflow import detect_intent_texts
-from tg_bot import BotLogsHandler
+from handler import BotLogsHandler
 
 
 logger_vk = logging.getLogger('Bot_helper_vk')
